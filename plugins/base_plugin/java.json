@@ -1,0 +1,40 @@
+{
+    "alert configs":{
+        "alert group":{"custom":true}
+    },
+    "regex_rules":[
+        {"if":["import\\s+javax\\.xml\\.((?!Exception)(?!bind\\.annotation\\.XmlAttribute).)*$"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"XML Used"}]}
+                ]
+        },
+        {"if":["import\\s+org\\.xml\\.sax\\.(?!SAXException)"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"XML Used"}]}
+                ]
+        },
+        {"if":["import\\s+org\\.jcp\\.xml\\."],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"XML Used"}]}
+                ]
+        },
+        {"if":["import\\s+sun\\.util\\.xml\\."],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"XML Used"}]}
+                ]
+        },
+        {"if":["import\\s+com\\.sun\\.org\\.apache\\.xml\\."],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"XML Used"}]}
+                ]
+        },
+        {"if":["import\\s+org\\.apache\\.commons\\.digester\\.Digester"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Digester Used"}]}
+                ]
+        }
+    ],
+    "tests":{
+             "import javax.xml.XMLReader":["import\\s+javax\\.xml\\.((?!Exception)(?!bind\\.annotation\\.XmlAttribute).)*$"]
+            }
+}

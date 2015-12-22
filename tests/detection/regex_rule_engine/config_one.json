@@ -1,0 +1,28 @@
+{
+    "name":"Detection Test 1",
+    "version":2,
+    "alert configs":{
+        "alert m.feldman normal":{"email":"johndoe+alert_normal@example.com"
+    },
+    "regexes":{
+        "exec() function":"\\.exec(\\s+)?\\(",
+        "System property":"System\\.getProperty"
+    },
+    "regex_rules":[
+        {"if":["exec"],
+         "then":[
+                {"alert":[{"alert config":"alert m.feldman normal","subject":"ESC_RAW Matched"}]}
+                ]
+        },
+        {"if":["System property"],
+         "then":[
+                {"alert":[{"alert config":"alert m.feldman high","subject":"DANGEROUS FUNCTION (system) MATCHED"}]}
+                ]
+        }
+    ],
+    "tests":{
+             "x.exec ('a')":["exec() function"],
+             "System.getProperty(a)":["System property"],
+             "Safe":[]
+    }
+}

@@ -1,0 +1,17 @@
+{{ title }}
+
+Description
+-----------
+{{ description }}
+
+Rule
+----
+{{ rule }}
+
+Link
+----
+{{ github_link }}
+
+Code
+----
+{{ code }}

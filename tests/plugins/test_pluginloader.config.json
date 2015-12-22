@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "folder":"./tests/plugins/test_pluginloader_testplugins/",
+    "enabled": [{
+      "debug":false
+    }]
+  }
+}

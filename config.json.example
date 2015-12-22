@@ -1,0 +1,45 @@
+{
+  "credentials_file":  "credentials.json",
+  "logging": {
+    "filename":   "providence.log",
+    "loglevel":   "debug",
+    "stringfmt":  "%(asctime)s %(name)-12s %(levelname)-8s:%(message)s",
+    "datefmt":    "%m/%d/%Y %I:%M:%S %p",
+    "formatter":  "%(name)-12s: %(levelname)-8s %(message)s"
+  },
+  "postgresql": {
+    "server":"localhost:5433",
+    "database":"providence",
+    "credential-identifier":"psqlcreds"
+  },
+  "email": {
+    "host": "mail.example.com",
+    "to": "johndoe@example.com",
+    "subject": "Providence Alert: ",
+    "credential-identifier":null
+  },
+  "repos": [
+      {
+        "type": "perforce",
+        "name": "PerforceRepo",
+        "server": "ssl:perforce.com:8888",
+        "directory": "//home/..."
+      },
+      {
+        "type": "github",
+        "name": "PublicGithubTest",
+        "server": "api.github.com",
+        "owner": "providencedemo",
+        "directory": "appsecdemo"
+      }
+  ],
+  "cron": {
+    "watcher_interval": "1"
+  },
+  "plugins": {
+    "enabled": [{
+      "base_plugin_watcher":true,
+      "base_plugin":true
+    }]
+  }
+}

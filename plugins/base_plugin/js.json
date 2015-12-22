@@ -1,0 +1,32 @@
+{
+    "alert configs":{
+        "alert group":{"custom":true}
+    },
+    "regex_rules":[
+        {"if":["http(s)?://.*\\.js"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"External Included Script"}]}
+                ]
+        },
+        {"if":["eval\\(.*\\)"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Eval used"}]}
+                ]
+        },
+        {"if":["\\.postMessage\\("],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Cross-domain communication"}]}
+                ]
+        },
+        {"if":["localStorage\\.setItem\\(['\"](password|token|key|secret)"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Using local storage for secrets"}]}
+                ]
+        }
+    ],
+    "tests":{
+             "<apex:outputText value={!merge} escape=\"false\"/>":["\\s+escape\\s*=\\s*(\"|')?false\\1"],
+             "<script src=\"http://www.google.com/script.js\"></script>":["http(s)?://.*\\.js"],
+             "eval(abcsasdscsdfsdf12334%);":["eval\\(.*\\)"]
+            }
+}
