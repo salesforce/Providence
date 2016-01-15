@@ -5,6 +5,7 @@ Providence is a system for code commit & bug system monitoring. It is deployed w
 ##### Cool Stuff
 * Build plugin to run a something everytime a commit happens
 * `Empire` contains some useful tools for credential management
+* Find our slides from our AppSec presentation [here](http://www.slideshare.net/salesforceeng/providence-rapid-vulnerability-prevention)
 
 ## Requirements
     python2.7
