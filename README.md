@@ -26,7 +26,7 @@ Providence is a system for code commit & bug system monitoring. It is deployed w
 Create a database named 'providence'
 
 ###4. Checkout Providence and Submodules
-    git clone https://github.com/SalesforceEng/Providence --recursive
+    git clone https://github.com/Salesforce/Providence --recursive
     cd Providence
 
 ###5. Install the VirtualEnv in your Providence Directory & Install Dependencies
