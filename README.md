@@ -68,7 +68,9 @@ python setup.py install --apidir <directory_of_uncompressed_cpp_api> --ssl <path
 ```
 
 ###6. Configuration
-The config.json file contains the settings for which to run Providence with. Set up the email and repos section with your information. 
+The config.json file contains the settings for which to run Providence with. 
+
+Modify the postgresql server address and port if necessary, and set up the email and repos section with your information. 
 
 `watcher_interval` sets the time in minutes between each scheduled processing.
 
