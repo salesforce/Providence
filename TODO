@@ -1,3 +1,0 @@
-- Create .gitignore to ignore json credentials?
-- Interrupt handling (graceful!)
-- Shore up usage of CREDENIAL_KEY/fernet so that if config.json has unencrypted creds in it it'll still work
