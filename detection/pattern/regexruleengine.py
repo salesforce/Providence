@@ -81,6 +81,9 @@ class RegexRuleEngine(object):
         return_actions = {"actions":[],"logs":[], "matches":[]}
         if if_conditions:
             for line in all_lines:
+                line = line.strip()
+                if line.startswith("//"):
+                    continue
                 if_condition_met = True
                 matches = []
                 for if_condition in if_conditions:
