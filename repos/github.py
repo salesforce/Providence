@@ -20,6 +20,9 @@ import dateutil.parser
 import urllib
 import os
 import pytz
+import sys
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 
 from Empire.cloudservices.github import GithubOrg, GithubRepo, GithubCommit
 from repos.base import RepoSource, RepoCommit, RepoPatch
@@ -31,7 +34,8 @@ owner = 'jacquev6'
 repo = 'PyGithub'
 
 class GithubSource(RepoSource):
-    def __init__(self, creds=None, host='api.github.com', owner='Pardot', repo='pardot'):
+    def __init__(self, creds=None, host='api.github.com', owner='Salesforce', repo='providence'):
+        # default repository to github.com/salesforce/providence
         self._last_date = None
         self._last_identifier = None
         self._no_more_requests_until = None
@@ -119,4 +123,4 @@ if __name__ == "__main__":
         print "touched ", patch.filename
     def cend(commit):
         pass
-    test.processSinceIdentifier("2014-11-12T00:00:00Z", cstart, pstart, cend);
+    test.processSinceIdentifier("2016-11-12T00:00:00Z", cstart, pstart, cend);
