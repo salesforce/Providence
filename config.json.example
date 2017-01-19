@@ -38,8 +38,8 @@
   },
   "plugins": {
     "enabled": [{
-      "base_plugin_watcher":true,
-      "base_plugin":true
+      "basic_plugin_watcher":true,
+      "basic_plugin":true
     }]
   }
 }

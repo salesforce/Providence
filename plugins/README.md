@@ -5,9 +5,9 @@ Providence plugins live in this directory.
 ## Directory Structure
 ```
 plugins
-|── base_plugin
+|── basic_plugin
 |   └── main.py
-|── base_plugin_watcher
+|── basic_plugin_watcher
 |	|── main.py
 |	|── js.json
 |	└── java.json
@@ -54,10 +54,10 @@ run_seven_minutes()
 
 
 ## Sample Plugins
-### base_plugin
+### basic_plugin
 Registers the Perforce and Github repos
 
-### base_plugin_watcher
+### basic_plugin_watcher
 Look for potential vulnerabilities in .js and .java files
 
 1. `java.json`  will alert for possible instances of XXE in java
