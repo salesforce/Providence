@@ -15,7 +15,7 @@ plugins
 ```
 
 ## Plugin Attributes
-Plugins can contain the following attributes, and Providence will execute them as described. One plugin can include any number of the attributes, but the samples plugin here separates them for ease-of-maintenance. 
+Plugins can contain the following attributes, and Providence will execute them as described. One plugin can include any number of the attributes, but the samples plugins here separates them for ease-of-maintenance. 
 
 Plugins inherits the parent Plugin object from base.py and must define the method
 ```
@@ -31,10 +31,10 @@ Must define the method
 register_repositories()
 ```
 
-base_plugin is a repository register plugin
-
 ### Watchers
-Watchers contain the logic for when to create alerts, and the sending alert logic themselves. Their execution interval is defined as "watcher_interval" in config.json. It must define the following methods
+Watchers contain the monitoring logic. Most plugins use regex to search for patterns in a commit. If match, send an alert. Watchers also contain the logic for sending the alerts. Their execution interval is defined as "watcher_interval" in config.json. 
+
+Must define the methods
 ```
 register_watcher()
 commit_started()
@@ -42,11 +42,11 @@ patch()
 commit_finished()
 ```
 
-base_plugin_watcher is a watcher plugin
-
 ### Hourly/Seven minutes
 
-Hourly and Seven Minute plugins run as often as their name states. These plugins are better suited for bug system instead of commit monitoring. Must have one of these defined
+Hourly and Seven Minute plugins run as often as their name states. These plugins are better suited for bug system instead of commit monitoring. 
+
+Must have one of these defined
 ```
 run_hourly()
 run_seven_minutes()
