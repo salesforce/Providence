@@ -38,7 +38,8 @@ Create a database named 'providence'
     brew install swig postgresql wget 
 
 ####Configuration On All Systems
-You may need to follow the instructions here for the cryptography module in the next steps: https://cryptography.io/en/latest/installation/  On OSX the install will fail without the proper environmental variables being set.
+You may need to follow the instructions here for the cryptography module in the next steps: https://cryptography.io/en/latest/installation/
+On OSX the install will fail without the proper environmental variables being set.
 
 ####All Systems
     virtualenv venv
