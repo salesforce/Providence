@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 class Plugin(base.Plugin):
 
-    def register_respositories(self):
+    def register_repositories(self):
         logger.debug("registering repository")
 
         configuration = config.Configuration('config.json')
