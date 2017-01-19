@@ -110,7 +110,7 @@ if __name__ == "__main__":
     if credential_key is None:
         credential_key = getpass.getpass('Credential Key:')
     credential_manager = CredentialManager(credentials_file, credential_key)
-    creds = credential_manager.get_or_create_credentials_for("github-mfeldmansf","password")
+    creds = credential_manager.get_or_create_credentials_for("github","password")
 
     test = GithubSource(creds);
     def cstart(commit):
