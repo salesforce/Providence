@@ -28,8 +28,10 @@ import config
 logger = logging.getLogger(__name__)
 
 class Plugin(base.Plugin):
+# Example of a repository register plugin. Only contains the register_repositories() method.
 
     def register_repositories(self):
+    # links each repo in config.json to their corresponding credentials
         logger.debug("registering repository")
 
         configuration = config.Configuration('config.json')
