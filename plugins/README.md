@@ -15,7 +15,7 @@ plugins
 ```
 
 ## Plugin Attributes
-Plugins can contain the following attributes, and Providence will execute them as described. One plugin can include any number of the attributes, but the samples plugins here separates them for ease-of-maintenance. 
+Plugins can contain the following attributes, and Providence will execute them as described. One plugin can include any number of the attributes, but the sample plugins here separates them for ease-of-maintenance. 
 
 Plugins inherits the parent Plugin object from base.py and must define the method
 ```
