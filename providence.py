@@ -207,8 +207,8 @@ if __name__ == "__main__":
     sched = Scheduler(standalone=True)
     watcher_interval = "*/" + configuration.get(("cron", "watcher_interval"))
     sched.add_cron_job(run_watchers, minute=watcher_interval);
-    #sched.add_cron_job(run_seven_minutes, minute="*/7");
-    #sched.add_cron_job(run_hourly, hour="*", minute="5");
+    sched.add_cron_job(run_seven_minutes, minute="*/7");
+    sched.add_cron_job(run_hourly, hour="*", minute="5");
     try:
         sched.start()
     except (KeyboardInterrupt, SystemExit):
