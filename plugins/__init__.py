@@ -86,6 +86,8 @@ class Plugins(object):
                     plugins["watchers"].append(plugin)
                 if hasattr(plugin, 'run_hourly'):
                     plugins["hourly"].append(plugin)
+                if hasattr(plugin, 'run_seven_minutes'):
+                    plugins["seven_minutes"].append(plugin)
         return plugins
 
     def get_repositories(self, repository_plugins, tests=False):
