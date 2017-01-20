@@ -58,8 +58,8 @@ if __name__ == "__main__":
 
 
     parser = argparse.ArgumentParser(description='Providence Monitor Framework')
-    parser.add_argument('--tests','-t', action='store_true')
-    parser.add_argument('--mode', help="specify production for production mode, or anything otherwise")
+    parser.add_argument('--tests','-t', help="run plugin tests", action='store_true')
+    parser.add_argument('--mode', help="specify production for production mode, or anything otherwise. Database will be reset if not in production.")
     parser.add_argument('--p4change', help="specify the p4 change number to debug")
     args = parser.parse_args()
 
