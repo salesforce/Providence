@@ -1,0 +1,25 @@
+{
+    "alert configs":{
+        "alert group":{"custom":true}
+    },
+    "regex_rules":[
+        {"if":["(?<!with sharing )(virtual )?class\\s+[^{]*{\\s*$"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Apex class without sharing"}]}
+                ]
+        },
+        {"if":["UserInfo\\.getSessionID\\(\\)"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Session ID being retrieved"}]}
+                ]
+        },
+        {"if":["(?i)http:\\//.+?"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Insecure endpoint"}]}
+                ]
+        }
+    ],
+    "tests":{
+             "public class metrix {":["class\\s+(?!with sharing)\\s*[^{]*{\\s*$"]
+            }
+}

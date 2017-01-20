@@ -1,0 +1,25 @@
+{
+    "alert configs":{
+        "alert group":{"custom":true}
+    },
+    "regex_rules":[
+        {"if":["<aura:unescapedHTML"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Aura Unescaped HTML"}]}
+                ]
+        },
+        {"if":["<style "],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Aura Raw Style Tag"}]}
+                ]
+        },
+        {"if":["<script "],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Aura Raw Script Tag"}]}
+                ]
+        }
+    ],
+    "tests":{
+             "<aura:unescapedHTML value=something>":["<aura:unescapedHTML"]
+            }
+}
