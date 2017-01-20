@@ -204,17 +204,9 @@ if __name__ == "__main__":
     for member in members:
         print member.json["login"]
 
-    creds = credential_manager.get_or_create_credentials_for("github-riq-orgowner","password")
-    git = GithubOrg('api.github.com', 'relateiq', creds)
-    members = git.members("2fa_disabled")
-    for member in members:
-        print member.json["login"]
-
-    """
     bugs = git.issues(params={"labels":"bug,security","state":"all","since":"2015-02-01T00:00:00Z"})
     import json
     print json.dumps(bugs, indent=2)
     if bugs:
         for bug in bugs:
             print bug["title"], bug["state"]
-    """

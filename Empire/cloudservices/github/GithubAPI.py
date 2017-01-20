@@ -80,8 +80,8 @@ class GithubAPI(object):
         return baseurl
 
 if __name__ == "__main__":
-    creds = Credentials("credentials.json","github-pardot-orgread")
-    git = GithubAPI(GithubRepo('api.github.com', 'goinstant','platform'), creds)
+    creds = Credentials("github")
+    git = GithubAPI(GithubRepo('api.github.com', 'salesforce','providence'), creds)
     bugs = git.issues(params={"labels":"bug,security","state":"all","since":"2015-02-01T00:00:00Z"})
     import json
     print json.dumps(bugs, indent=2)

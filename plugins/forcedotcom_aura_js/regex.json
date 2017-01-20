@@ -1,0 +1,20 @@
+{
+    "alert configs":{
+        "alert group":{"custom":true}
+    },
+    "regex_rules":[
+        {"if":["\\.insertAdjacentHTML"],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Direct DOM Write in Aura"}]}
+                ]
+        },
+        {"if":["\\.(innerHTML|outerHTML)\\s*="],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Direct DOM Write in Aura"}]}
+                ]
+        }
+    ],
+    "tests":{
+             "document.createElement()":["document\\.(create|write|writeln)"]
+            }
+}

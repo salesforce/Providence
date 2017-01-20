@@ -31,6 +31,7 @@ import settings
 
 logger = logging.getLogger(__name__)
 class Plugin(base.Plugin):
+# Example of a watcher plugin. Implements the four required methods as described in readme
 
     # basic configurations
     configuration = config.Configuration('config.json')
@@ -44,6 +45,7 @@ class Plugin(base.Plugin):
     last_alert = None
 
     def register_watcher(self):
+    # hooks each repository listed in config.json to the main process in providence.py
         repo_watchers = []
         for repo in self.configuration.get('repos'):
 
@@ -62,9 +64,11 @@ class Plugin(base.Plugin):
         return repo_watchers
 
     def commit_started(self, repository_name, repo_commit):
+    # method called when Providence begins the commit processing
         logger.debug("processing repo %s on commit %s", repository_name, repo_commit.identifier)
 
     def patch(self, repository_name, repo_patch):
+    # method called during the commit processing. Defines when an alert should be sent
         if re.search(self.JAVA_SOURCE_FILE_PATTERN, repo_patch.filename):
             regex_file_path = os.path.join(os.path.dirname(__file__),"java.json")
         else:
@@ -75,19 +79,22 @@ class Plugin(base.Plugin):
         rule_engine = RegexRuleEngine(json.load(open(regex_file_path)))
 
         def custom_match_callback(alert_config, alert_action, repo_patch, all_lines, offending_line):
+        # method called when the commit matches a regex rule. The actual sending of alerts (via email or bug tracking system) goes here
             self.send_alert(repo_patch, repo_patch.repo_commit, alert_action.get("subject"), offending_line)
 
+        # Each line in the commit goes through the rule engine. If the line matches a regex rule, custom_match_callback() is called
         rule_engine.match(all_lines, repo_patch, custom_match_callback=custom_match_callback)
         return
 
     def commit_finished(self, repository_name, repo_commit):
+        # method called when Providence finishes the commit processing
         pass
 
     def simple_html_encode(self, string):
         return string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;')
 
     def send_alert(self, repo_patch, repo_commit, subject, offending_line):
-        # parameter setup
+        # Example method for sending alert whenever a rule is matched. 
         url = repo_commit.url;
         filename = 'NOFILE'
         if repo_patch != None:
@@ -101,7 +108,7 @@ class Plugin(base.Plugin):
         # remember the current alert
         Plugin.last_alert = url + filename + subject + offending_line
 
-        message = url +\
+        message = '<a href="' + url + '">' + url + '</a>'+\
         '<br/><br/>OFFENDING LINE<br/>' + self.simple_html_encode(offending_line) +\
         '<br/><br/>FILE NAME<br/>' + filename
 

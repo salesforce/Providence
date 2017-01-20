@@ -80,20 +80,22 @@ class Plugins(object):
                                 creds = config.credential_manager.get_or_create_credentials_for(cred_name, cred_type)
                                 if creds is None:
                                     continue
-                if hasattr(plugin, 'register_respositories'):
+                if hasattr(plugin, 'register_repositories'):
                     plugins["repositories"].append(plugin)
                 if hasattr(plugin, 'register_watcher'):
                     plugins["watchers"].append(plugin)
                 if hasattr(plugin, 'run_hourly'):
                     plugins["hourly"].append(plugin)
+                if hasattr(plugin, 'run_seven_minutes'):
+                    plugins["seven_minutes"].append(plugin)
         return plugins
 
     def get_repositories(self, repository_plugins, tests=False):
         repositories = {}
         for plugin in repository_plugins:
             try:
-                if hasattr(plugin, 'register_respositories'):
-                    plugin_repos = plugin.register_respositories();
+                if hasattr(plugin, 'register_repositories'):
+                    plugin_repos = plugin.register_repositories();
                     repositories.update(plugin_repos);
             except Exception, e:
                 logger.exception(e)

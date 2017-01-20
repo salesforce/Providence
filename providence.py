@@ -58,9 +58,10 @@ if __name__ == "__main__":
 
 
     parser = argparse.ArgumentParser(description='Providence Monitor Framework')
-    parser.add_argument('--tests','-t', action='store_true')
-    parser.add_argument('--mode', help="specify production for production mode, or anything otherwise")
+    parser.add_argument('--tests','-t', help="run plugin tests", action='store_true')
+    parser.add_argument('--mode', help="specify production for production mode, or anything otherwise. Database will be reset if not in production.")
     parser.add_argument('--p4change', help="specify the p4 change number to debug")
+    parser.add_argument('--timestamp', help="timestamp to pull commits from, in the format YYYY-MM-DD HH:MM:SS PST")
     args = parser.parse_args()
 
     settings.init(args.mode, args.p4change)
@@ -102,16 +103,9 @@ if __name__ == "__main__":
                     sys.exit(1)
         print "=======================  Tests Successful ======================="
         sys.exit(0)
-
-#-- Setup RepoTracker plugin
-    #tracker = RepoTracker(config);
-    #new_datetime = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
-    #new_datetime -= datetime.timedelta(hours=1)
-    #tracker.new_date("github-relateiq/riq",new_datetime)
-    #print "Setting to ", new_datetime
     
-    def run_watchers():
-        #hipalert.send(Alert("Running watchers", level=Alert.DEBUG))
+    def run_watchers(startTime=None):
+    # run watcher plugins
         logger.info("Running watchers")
 
         plugins = loaded_plugins.enabled_plugins()
@@ -119,7 +113,6 @@ if __name__ == "__main__":
         repositories = loaded_plugins.get_repositories(plugins["repositories"])        
         watchers = loaded_plugins.get_watchers(plugins["watchers"])
         tracker = repotracker.RepoTracker();
-        tracker.update_identifier("github-Pardot/pardot::", str(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC) - datetime.timedelta(hours = 48)))
 
         for repository_name, repository_data in repositories.items():
             repository_watchers_by_path = watchers.get(repository_name)
@@ -156,10 +149,11 @@ if __name__ == "__main__":
                     now = datetime.datetime.utcnow()
                     if last_run_completed:
                         if (now - last_run_completed) < datetime.timedelta(minutes=repository_data.get("check-every-x-minutes")):
-                            #continue;
                             pass;
                 try:
                     last_identifier = tracker.last_identifier(repository_db_identifier)
+                    if not last_identifier and startTime:
+                        last_identifier = startTime
                     repository_data["source"].processSinceIdentifier(last_identifier, 
                                                                      commit_started_callback=commit_started_callback,
                                                                      patch_callback=patch_callback,
@@ -171,9 +165,8 @@ if __name__ == "__main__":
                     logger.exception("Exception running repository: %s" % (repository_db_identifier))
 
     def run_hourly():
+    # run hourly plugins
         hour = datetime.datetime.now().hour
-        # Current hour
-
         logger.info("Running hourly")
         plugins = loaded_plugins.enabled_plugins()
 
@@ -186,9 +179,8 @@ if __name__ == "__main__":
                 logger.exception("Exception running hourly: %s" % (plugin))
 
     def run_seven_minutes():
+    # run seven minute plugins
         hour = datetime.datetime.now().hour
-        # Current hour
-
         logger.info("Running 7 minutes")
 
         plugins = loaded_plugins.enabled_plugins()
@@ -200,15 +192,19 @@ if __name__ == "__main__":
             except Exception, e:
                 logger.exception("Exception running 7 minutes: %s" % (plugin))
     
-    run_seven_minutes()
-    run_watchers()
-    run_hourly()
+    if args.timestamp:
+        run_watchers(args.timestamp)
+    else:
+        run_watchers()
+    # run_seven_minutes()
+    # run_hourly()
 
     sched = Scheduler(standalone=True)
     watcher_interval = "*/" + configuration.get(("cron", "watcher_interval"))
     sched.add_cron_job(run_watchers, minute=watcher_interval);
-    #sched.add_cron_job(run_seven_minutes, minute="*/7");
-    #sched.add_cron_job(run_hourly, hour="*", minute="5");
+    # un-comment the following two lines if you'd like to use seven-minute or hourly plugins
+    # sched.add_cron_job(run_seven_minutes, minute="*/7");
+    # sched.add_cron_job(run_hourly, hour="*", minute="5");
     try:
         sched.start()
     except (KeyboardInterrupt, SystemExit):

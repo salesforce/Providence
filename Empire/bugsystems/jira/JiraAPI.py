@@ -34,8 +34,6 @@ class JiraAPI(object):
         self.credentials = credentials
         self.verify = None
         __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-        if (self.server == "jira.exacttarget.com:8443"):
-            self.verify = os.path.join(__location__, 'et-jira-certs.pem')
 
     def fetchCommitDetails(self, url):
         r = requests.get(url, auth=self.auth(), verify=self.verify);
@@ -66,11 +64,4 @@ class JiraAPI(object):
         return None
 
 if __name__ == '__main__':
-    usercredentials_jsonfile = "bugsystems-Jira-usercreds.json"
-    user_creds_data = open(usercredentials_jsonfile)
-    user_creds = json.load(user_creds_data)
-    user = user_creds["user"]
-    password = user_creds["token"]
-    server_url = 'https://pardot.atlassian.net'
-    jira = JiraAPI(server_url, user, password)
-    results = jira.jql('issuetype = Bug AND labels = trust AND status in (Accepted, "In Progress", Reopened, QA, "Needs Documentation", "On Hold", "QA Confirmed", Backlog, "Under Consideration", Investigation, "Define User Requirements", "Interaction Design", "Ready for Engineering", "UX Review", Done, "In Review", Blocked)')
+    pass

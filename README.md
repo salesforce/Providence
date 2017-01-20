@@ -26,7 +26,7 @@ Providence is a system for code commit & bug system monitoring. It is deployed w
 Create a database named 'providence'
 
 ###4. Checkout Providence and Submodules
-    git clone https://github.com/SalesforceEng/Providence --recursive
+    git clone https://github.com/Salesforce/Providence --recursive
     cd Providence
 
 ###5. Install the VirtualEnv in your Providence Directory & Install Dependencies
@@ -38,7 +38,8 @@ Create a database named 'providence'
     brew install swig postgresql wget 
 
 ####Configuration On All Systems
-You may need to follow the instructions here for the cryptography module in the next steps: https://cryptography.io/en/latest/installation/  On OSX the install will fail without the proper environmental variables being set.
+You may need to follow the instructions here for the cryptography module in the next steps: https://cryptography.io/en/latest/installation/
+On OSX the install will fail without the proper environmental variables being set.
 
 ####All Systems
     virtualenv venv
@@ -67,7 +68,21 @@ python setup.py build --apidir <directory_of_uncompressed_cpp_api> --ssl <path_t
 python setup.py install --apidir <directory_of_uncompressed_cpp_api> --ssl <path_to_openssl_1_lib_dir>
 ```
 
-###6. Generate a Credentials Key
+###6. Configuration
+The config.json file contains the settings for which to run Providence with. 
+
+Modify the postgresql server address and port if necessary, and set up the email and repos section with your information. 
+
+`watcher_interval` sets the time in minutes between each scheduled processing.
+
+###7. Adjust which plugins you want to run
+Enable plugins in your new config.json file, several examples will be there.
+Currently the 'plugins' directory contains a base plugin which has two example regex files:
+
+1. `java.json`  will alert for possible instances of XXE in java
+2. `js.json` contains warnings for risky JS coding
+
+###8. Generate a Credentials Key
 ```
 dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
 ```
@@ -75,10 +90,10 @@ This key can be stored in the environmental variable $CREDENTIAL_KEY or entered 
 recommended you don't keep the key on the same server as the credentials.json file, and use something like LastPass for 
 keeping it safe.
 
-###7. Entering Credentials
-When you start up Providence it will ask you for credentials that aren't found, or you can edit the credentials.json file yourself (useful if one github account works for several repositories).
+###9. Entering Credentials
+When you start up Providence it will try to connect to the repositories set up in config.json, and ask you for credentials that aren't found. Alternatively you can edit the credentials.json file yourself (useful if one github account works for several repositories).
 
-####Or manually create the credentials file.
+####Manually create the credentials file.
 
 You can encrypt a passwords using the command:
 ```
@@ -88,7 +103,7 @@ python Empire/creds/encrypt-cred.py
 copy credentials.json.example to credentials.json and update it as needed:
 ```json
 {    
-   "postgres-providence": {
+   "plsqlcreds": {
         "type":"password",
         "username":"<username>",
         "password":"<password or fernet-encrypted password>"
@@ -101,14 +116,7 @@ copy credentials.json.example to credentials.json and update it as needed:
 }
 ```
 
-###8. Adjust which plugins you want to run
-Enable plugins in your new config.json file, several examples will be there.
-Currently the 'plugins' directory contains a base plugin which has two example regex files:
-
-1. `java.json`  will alert for possible instances of XXE in java
-2. `js.json` contains warnings for risky JS coding
-
-###9. Run Providence!
+###10. Run Providence!
 ```
 python providence.py
 ```

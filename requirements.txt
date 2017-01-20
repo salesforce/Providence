@@ -5,7 +5,7 @@ distribute==0.6.24
 httplib2==0.9
 py==1.4.20
 pycrypto==2.6.1
-cryptography==0.6.1
+cryptography
 python-dateutil==2.2
 python-simple-hipchat==0.3.3
 pytz==2014.4
@@ -20,4 +20,5 @@ ndg-httpsclient
 pyasn1
 lxml==3.4.1
 enum34
+p4
 psycopg2==2.5.4

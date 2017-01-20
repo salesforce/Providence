@@ -1,0 +1,10 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+.*.sw[a-z]
+venv/
+providence.log
+credentials.json
+config.json
+key
+.DS_Store

@@ -8,7 +8,7 @@
     "formatter":  "%(name)-12s: %(levelname)-8s %(message)s"
   },
   "postgresql": {
-    "server":"localhost:5433",
+    "server":"localhost:5432",
     "database":"providence",
     "credential-identifier":"psqlcreds"
   },
@@ -38,8 +38,12 @@
   },
   "plugins": {
     "enabled": [{
-      "base_plugin_watcher":true,
-      "base_plugin":true
+      "basic_plugin_watcher":true,
+      "basic_plugin":true,
+      "forcedotcom_apex": true,
+      "forcedotcom_aura_cmp_ui": true,
+      "forcedotcom_aura_js": true,
+      "forcedotcom_vf": true
     }]
   }
 }
