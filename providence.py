@@ -103,7 +103,7 @@ if __name__ == "__main__":
         print "=======================  Tests Successful ======================="
         sys.exit(0)
     
-    def run_watchers():
+    def run_watchers(startTime=None):
     # run watcher plugins
         logger.info("Running watchers")
 
@@ -151,6 +151,8 @@ if __name__ == "__main__":
                             pass;
                 try:
                     last_identifier = tracker.last_identifier(repository_db_identifier)
+                    if not last_identifier and startTime:
+                        last_identifier = startTime
                     repository_data["source"].processSinceIdentifier(last_identifier, 
                                                                      commit_started_callback=commit_started_callback,
                                                                      patch_callback=patch_callback,
