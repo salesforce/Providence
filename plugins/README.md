@@ -38,7 +38,7 @@ register_repositories()
 ```
 
 ### Watchers
-Watchers contain the monitoring logic. Most plugins use regex to search for patterns in a commit. If match, send an alert. Watchers also contain the logic for sending the alerts. Their execution interval is defined as "watcher_interval" in config.json. 
+Watcher plugins are for monitoring commits. These plugins use regex rules to search for patterns in a commit, and sends an alert if there is a match. The alert logic (such as sending email or creating a new work in your favorite bug system) is also defined here. The plsql database keeps a timestamp of the last time commits were processed, and will pull commits since that timestamp every time it executes. You can specify the execution interval in "watcher_interval" in config.json
 
 Must define the methods
 ```
