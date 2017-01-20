@@ -108,7 +108,7 @@ class Plugin(base.Plugin):
         # remember the current alert
         Plugin.last_alert = url + filename + subject + offending_line
 
-        message = url +\
+        message = '<a href="' + url + '">' + url + '</a>'+\
         '<br/><br/>OFFENDING LINE<br/>' + self.simple_html_encode(offending_line) +\
         '<br/><br/>FILE NAME<br/>' + filename
 
