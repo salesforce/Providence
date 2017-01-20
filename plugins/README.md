@@ -11,12 +11,12 @@ plugins
 |	|── main.py
 |	|── js.json
 |	└── java.json
-|-- forcedotcom_base_watcher
+|── forcedotcom_base_watcher
 |	└── __init__.py
-|-- forcedotcom_apex
+|── forcedotcom_apex
 |	|-- main.py
 |	└── regex.json
-|-- other forcedotcom plugins
+|── other forcedotcom plugins
 └── base.py
 ```
 
@@ -70,9 +70,9 @@ Looks for potential vulnerabilities in .js and .java files
 2. `js.json` contains warnings for risky JS coding
 
 ### forcedotcom_base_watcher
-Parent class of other forcedotcom watcher plugins. Contains the hooks (register_watcher(), commit_started() etc) for providence.py but does not have any actual rules. The child classes contain the actual regex and rules. You do not need to include this file in your config.json
+Parent class of other forcedotcom watcher plugins. Contains the hooks (`register_watcher()`, `commit_started()` etc) for providence.py but does not have any actual rules. The child classes contain the actual regex and rules. You do not need to include this file in your config.json
 
-This and the child forcedotcom plugins is a great way to monitor issues that we check for during the AppExchange security review
+This and the child forcedotcom plugins are a great way to monitor issues that we check for during the AppExchange security review.
 
 ### forcedotcom_apex
 Looks for common security issues in apex classes
