@@ -112,7 +112,6 @@ if __name__ == "__main__":
         repositories = loaded_plugins.get_repositories(plugins["repositories"])        
         watchers = loaded_plugins.get_watchers(plugins["watchers"])
         tracker = repotracker.RepoTracker();
-        tracker.update_identifier("github-Pardot/pardot::", str(datetime.datetime.utcnow().replace(tzinfo=pytz.UTC) - datetime.timedelta(hours = 48)))
 
         for repository_name, repository_data in repositories.items():
             repository_watchers_by_path = watchers.get(repository_name)
