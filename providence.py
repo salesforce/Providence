@@ -61,6 +61,7 @@ if __name__ == "__main__":
     parser.add_argument('--tests','-t', help="run plugin tests", action='store_true')
     parser.add_argument('--mode', help="specify production for production mode, or anything otherwise. Database will be reset if not in production.")
     parser.add_argument('--p4change', help="specify the p4 change number to debug")
+    parser.add_argument('--timestamp', help="timestamp to pull commits from, in the format YYYY-MM-DD HH:MM:SS PST")
     args = parser.parse_args()
 
     settings.init(args.mode, args.p4change)
@@ -191,7 +192,10 @@ if __name__ == "__main__":
             except Exception, e:
                 logger.exception("Exception running 7 minutes: %s" % (plugin))
     
-    run_watchers()
+    if args.timestamp:
+        run_watchers(args.timestamp)
+    else:
+        run_watchers()
     # run_seven_minutes()
     # run_hourly()
 
