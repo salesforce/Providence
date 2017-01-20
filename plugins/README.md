@@ -11,6 +11,12 @@ plugins
 |	|── main.py
 |	|── js.json
 |	└── java.json
+|-- forcedotcom_base_watcher
+|	└── __init__.py
+|-- forcedotcom_apex
+|	|-- main.py
+|	└── regex.json
+|-- other forcedotcom plugins
 └── base.py
 ```
 
@@ -58,10 +64,27 @@ run_seven_minutes()
 Registers the Perforce and Github repos
 
 ### basic_plugin_watcher
-Look for potential vulnerabilities in .js and .java files
+Looks for potential vulnerabilities in .js and .java files
 
 1. `java.json`  will alert for possible instances of XXE in java
 2. `js.json` contains warnings for risky JS coding
+
+### forcedotcom_base_watcher
+Parent class of other forcedotcom watcher plugins. Contains the hooks (register_watcher(), commit_started() etc) for providence.py but does not have any actual rules. The child classes contain the actual regex and rules. You do not need to include this file in your config.json
+
+This and the child forcedotcom plugins is a great way to monitor issues that we check for during the AppExchange security review
+
+### forcedotcom_apex
+Looks for common security issues in apex classes
+
+### forcedotcom_aura_cmp_ui
+Looks for common security issues on the UI side of Aura components
+
+### forcedotcom_aura_js
+Looks for common security issues on the controller/helper sides of Aura components
+
+### forcedotcom_vf
+Looks for issues on VisualForce pages
 
 
 
