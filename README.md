@@ -51,22 +51,7 @@ If you need to deactivate the virtualenv just type `deactivate`
 
 ####If you would like to use Perforce monitoring
     (follow steps above, make sure you have run 'source venv/bin/activate')
-
-Install p4 client (http://www.perforce.com/downloads)
-
-Make a directory (vendor for example) and download and uncompress p4python api:
-    http://www.perforce.com/downloads/Perforce/20-User?qt-perforce_downloads_step_3=7#product-54
-
-Download and uncompress the C++ API (p4python is just an interface to this)
-    http://cdist2.perforce.com/perforce/r14.2/bin.linux26x86_64/
-    (http://www.perforce.com/downloads/Perforce/20-User?qt-perforce_downloads_step_3=7#product-49 may not work)
-
-From the p4python uncompressed directory
-(openssl lib dir is probably /usr/include/openssl)
-```
-python setup.py build --apidir <directory_of_uncompressed_cpp_api> --ssl <path_to_openssl_1_lib_dir>
-python setup.py install --apidir <directory_of_uncompressed_cpp_api> --ssl <path_to_openssl_1_lib_dir>
-```
+    pip install p4python
 
 ###6. Configuration
 The config.json file contains the settings for which to run Providence with. 
