@@ -155,7 +155,7 @@ class PerforceSource(RepoSource):
                         commit_started_callback(perforce_commit)
 
                         if files is None:
-                            #Todo: we should still record something here, behavioral
+                            logger.debug("commit %s in repo %s has no files", change_id, self.directory)
                             continue
 
                         logger.info("processing commit " + change_id + " in repo " + self.directory)
