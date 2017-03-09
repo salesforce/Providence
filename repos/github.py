@@ -67,7 +67,7 @@ class GithubSource(RepoSource):
 
         # Process oldest first
         commits = commits[::-1]
-        logger.debug("process %d commits", len(commits))
+        logger.debug("processing %d commits", len(commits))
         for github_commit in commits:
             logger.debug("sha: %s", github_commit.sha)
             if github_commit.sha:
@@ -103,10 +103,9 @@ class GithubSource(RepoSource):
                                 patch_callback(repo_patch)
 
                     commit_finished_callback(repo_commit)
-                    logger.debug("batch fof files processed")
-        logger.debug("done")
-
-
+                    logger.debug("commit sha: %s processing complete", github_commit.sha)
+        #logger.debug("done")
+        
 if __name__ == "__main__":
     from Empire.creds import CredentialManager
     credentials_file = "credentials.json"
