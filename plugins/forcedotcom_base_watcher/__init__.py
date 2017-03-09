@@ -61,7 +61,7 @@ class ForceDotComBasePlugin(base.Plugin):
             elif repo_type == 'github':
                 repo_type = RepoWatcher.GITHUB
             else:
-                print 'Repo Type not supported yet: ' + repo_type
+                logger.error('Repo Type \'%s\' not supported yet', repo_type)
                 repo_type = RepoWatcher.ALL
 
             repo_watchers.append(RepoWatcher(self.child_instance, repo_type, repo.get('name')))
@@ -79,7 +79,7 @@ class ForceDotComBasePlugin(base.Plugin):
             rule_engine = RegexRuleEngine(json.load(open(self.regex_file_path)))
 
             def custom_match_callback(alert_config, alert_action, repo_patch, all_lines, offending_line):
-                self.send_alert(repo_patch, repo_patch.repo_commit, alert_action.get("subject"), u'<br/>'.join(all_lines).encode('utf-8').strip(), offending_line)
+                self.send_alert(repo_patch, repo_patch.repo_commit, offending_line)
 
             rule_engine.match(all_lines, repo_patch, custom_match_callback=custom_match_callback)
         return
@@ -90,7 +90,7 @@ class ForceDotComBasePlugin(base.Plugin):
     def simple_html_encode(self, string):
         return string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;')
 
-    def send_alert(self, repo_patch, repo_commit, subject, alert_msg, offending_line):
+    def send_alert(self, repo_patch, repo_commit, subject, offending_line):
         # parameter setup
         url = repo_commit.url;
         filename = 'NOFILE'

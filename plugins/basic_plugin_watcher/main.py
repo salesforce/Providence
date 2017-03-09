@@ -56,7 +56,7 @@ class Plugin(base.Plugin):
             elif repo_type == 'github':
                 repo_type = RepoWatcher.GITHUB
             else:
-                print 'Repo Type not supported yet: ' + repo_type
+                logger.warning('Repo Type \'%s\' not supported yet', repo_type)
                 repo_type = RepoWatcher.ALL
 
             repo_watchers.append(RepoWatcher(self, repo_type, repo.get('name')))
