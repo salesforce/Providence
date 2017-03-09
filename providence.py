@@ -61,7 +61,7 @@ if __name__ == "__main__":
     parser.add_argument('--tests','-t', help="run plugin tests", action='store_true')
     parser.add_argument('--mode', help="specify production for production mode, or anything otherwise. Database will be reset if not in production.")
     parser.add_argument('--p4change', help="specify the p4 change number to debug")
-    parser.add_argument('--timestamp', help="timestamp to pull commits from, in the format YYYY-MM-DD HH:MM:SS PST")
+    parser.add_argument('--timestamp', help="timestamp in PST to pull commits from, in the format YYYY-MM-DD HH:MM:SS")
     args = parser.parse_args()
 
     settings.init(args.mode, args.p4change)
@@ -153,7 +153,7 @@ if __name__ == "__main__":
                 try:
                     last_identifier = tracker.last_identifier(repository_db_identifier)
                     if not last_identifier and startTime:
-                        last_identifier = startTime
+                        last_identifier = startTime + " PST"
                     repository_data["source"].processSinceIdentifier(last_identifier, 
                                                                      commit_started_callback=commit_started_callback,
                                                                      patch_callback=patch_callback,
