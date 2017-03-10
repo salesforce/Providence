@@ -61,7 +61,7 @@ class ForceDotComBasePlugin(base.Plugin):
             elif repo_type == 'github':
                 repo_type = RepoWatcher.GITHUB
             else:
-                logger.error('Repo Type \'%s\' not supported yet', repo_type)
+                logger.warning('Repo Type \'%s\' not supported yet', repo_type)
                 repo_type = RepoWatcher.ALL
 
             repo_watchers.append(RepoWatcher(self.child_instance, repo_type, repo.get('name')))
