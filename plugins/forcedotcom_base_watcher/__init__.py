@@ -33,6 +33,9 @@ class ForceDotComBasePlugin(base.Plugin):
     # basic configurations
     configuration = config.Configuration('config.json')
     EMAIL_ALERT_RECIPIENTS = configuration.get(('email', 'to'))
+    EMAIL_ALERT_SUBJECT = configuration.get(('email', 'subject'))
+    if EMAIL_ALERT_SUBJECT is None or EMAIL_ALERT_SUBJECT is '':
+        EMAIL_ALERT_SUBJECT = '[Providence Email Alert]'
 
     # some regex filename constants
     AURA_CMP_UI_SOURCE_FILE_PATTERN = "^((?<!auradocs)(?<!outputRichText).)*\.cmp$"
@@ -95,7 +98,7 @@ class ForceDotComBasePlugin(base.Plugin):
         filename = 'NOFILE'
         if repo_patch != None:
             filename = repo_patch.filename
-        subject = "[Providence Email Alert] - " + subject + ' in ' + repo_commit.identifier
+        subject = self.EMAIL_ALERT_SUBJECT + " " + subject + ' in ' + repo_commit.identifier
 
         # skip if the alert is duplicate
         if url + filename + subject + offending_line == ForceDotComBasePlugin.last_alert:
