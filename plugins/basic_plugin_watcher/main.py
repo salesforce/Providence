@@ -27,7 +27,6 @@ import re
 from alerts.email_alert import EmailAlert
 from alerts import Alert
 from Empire.creds import CredentialManager
-import settings
 
 logger = logging.getLogger(__name__)
 class Plugin(base.Plugin):

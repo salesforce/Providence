@@ -25,7 +25,6 @@ import config
 import re
 from alerts.email_alert import EmailAlert
 from alerts import Alert
-import settings
 
 logger = logging.getLogger(__name__)
 class ForceDotComBasePlugin(base.Plugin):
@@ -79,7 +78,7 @@ class ForceDotComBasePlugin(base.Plugin):
             rule_engine = RegexRuleEngine(json.load(open(self.regex_file_path)))
 
             def custom_match_callback(alert_config, alert_action, repo_patch, all_lines, offending_line):
-                self.send_alert(repo_patch, repo_patch.repo_commit, offending_line)
+                self.send_alert(repo_patch, repo_patch.repo_commit, alert_action.get("subject"), offending_line)
 
             rule_engine.match(all_lines, repo_patch, custom_match_callback=custom_match_callback)
         return
