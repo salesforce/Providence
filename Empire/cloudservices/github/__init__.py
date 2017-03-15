@@ -137,6 +137,11 @@ class GithubRepo(object):
         commit = GithubCommit(self, result.get("sha"), commit_json=result)
         return commit
 
+    def get_raw_file(self, file_path, commit_sha=None):
+        url = "%s/contents/%s" % (self.github_org.github_api.baseURL(self.github_org.name, self.name), file_path)
+        file_content = self.github_org.github_api.fetch_raw(url)
+        return file_content
+
 class GithubIssue(object):
     def __init__(self, github_org, number, github_repo=None, issue_json=None):
         self.github_org = github_org

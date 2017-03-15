@@ -59,9 +59,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Providence Monitor Framework')
     parser.add_argument('--tests','-t', help="run plugin tests", action='store_true')
-    parser.add_argument('--mode', help="specify production for production mode, or anything otherwise. Database will be reset if not in production.")
-    parser.add_argument('--p4change', help="specify the p4 change number to debug")
-    parser.add_argument('--timestamp', help="timestamp to pull commits from, in the format YYYY-MM-DD HH:MM:SS PST")
+    parser.add_argument('--mode', help="specify production for production mode, or anything otherwise. Database will be reset if not in production, and providence will start from the current commit")
+    parser.add_argument('--p4change', help="specify the p4 change number to debug. Must not be in production mode")
+    parser.add_argument('--timestamp', help="timestamp in PST to pull commits from, in the format YYYY-MM-DD HH:MM:SS")
     args = parser.parse_args()
 
     settings.init(args.mode, args.p4change)
@@ -74,10 +74,10 @@ if __name__ == "__main__":
     credential_manager = CredentialManager(credentials_file, credential_key)
     config.credential_manager = credential_manager
 
-    ## -- test just resets the db everytime --
     from models import Base
     from db import engine
-    if not settings.in_production():
+    #-- reset db if not in production or timestamp specified
+    if not settings.in_production() or args.timestamp:
         Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     from repos import repotracker
@@ -116,6 +116,7 @@ if __name__ == "__main__":
 
         for repository_name, repository_data in repositories.items():
             repository_watchers_by_path = watchers.get(repository_name)
+            logger.info("In repo %s", repository_name)
             if repository_watchers_by_path is None:
                 continue
             for repository_path, repo_watchers in repository_watchers_by_path.items():
@@ -153,7 +154,7 @@ if __name__ == "__main__":
                 try:
                     last_identifier = tracker.last_identifier(repository_db_identifier)
                     if not last_identifier and startTime:
-                        last_identifier = startTime
+                        last_identifier = startTime + " PST"
                     repository_data["source"].processSinceIdentifier(last_identifier, 
                                                                      commit_started_callback=commit_started_callback,
                                                                      patch_callback=patch_callback,
@@ -162,7 +163,7 @@ if __name__ == "__main__":
 
                     tracker.update_last_run_completed(repository_db_identifier, datetime.datetime.utcnow())
                 except Exception, e:
-                    logger.exception("Exception running repository: %s" % (repository_db_identifier))
+                    logger.exception("Repo Error: name=%s error=%s", repository_name, e, exc_info=True)
 
     def run_hourly():
     # run hourly plugins

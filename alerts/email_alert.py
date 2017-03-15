@@ -74,7 +74,7 @@ class EmailAlert(object):
         self.html = alert.message_html
 
         msg = MIMEMultipart('alternative')
-        msg['Subject'] = "Providence Alert: " + self.subject
+        msg['Subject'] = "" + self.subject
         msg['From'] = self.from_email
         msg['To'] = self.emails
 

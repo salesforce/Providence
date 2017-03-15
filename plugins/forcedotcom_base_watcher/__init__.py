@@ -25,7 +25,6 @@ import config
 import re
 from alerts.email_alert import EmailAlert
 from alerts import Alert
-import settings
 
 logger = logging.getLogger(__name__)
 class ForceDotComBasePlugin(base.Plugin):
@@ -34,6 +33,9 @@ class ForceDotComBasePlugin(base.Plugin):
     # basic configurations
     configuration = config.Configuration('config.json')
     EMAIL_ALERT_RECIPIENTS = configuration.get(('email', 'to'))
+    EMAIL_ALERT_SUBJECT = configuration.get(('email', 'subject'))
+    if EMAIL_ALERT_SUBJECT is None or EMAIL_ALERT_SUBJECT is '':
+        EMAIL_ALERT_SUBJECT = '[Providence Email Alert]'
 
     # some regex filename constants
     AURA_CMP_UI_SOURCE_FILE_PATTERN = "^((?<!auradocs)(?<!outputRichText).)*\.cmp$"
@@ -61,7 +63,7 @@ class ForceDotComBasePlugin(base.Plugin):
             elif repo_type == 'github':
                 repo_type = RepoWatcher.GITHUB
             else:
-                print 'Repo Type not supported yet: ' + repo_type
+                logger.warning('Repo Type \'%s\' not supported yet', repo_type)
                 repo_type = RepoWatcher.ALL
 
             repo_watchers.append(RepoWatcher(self.child_instance, repo_type, repo.get('name')))
@@ -79,7 +81,7 @@ class ForceDotComBasePlugin(base.Plugin):
             rule_engine = RegexRuleEngine(json.load(open(self.regex_file_path)))
 
             def custom_match_callback(alert_config, alert_action, repo_patch, all_lines, offending_line):
-                self.send_alert(repo_patch, repo_patch.repo_commit, alert_action.get("subject"), u'<br/>'.join(all_lines).encode('utf-8').strip(), offending_line)
+                self.send_alert(repo_patch, repo_patch.repo_commit, alert_action.get("subject"), offending_line)
 
             rule_engine.match(all_lines, repo_patch, custom_match_callback=custom_match_callback)
         return
@@ -90,13 +92,13 @@ class ForceDotComBasePlugin(base.Plugin):
     def simple_html_encode(self, string):
         return string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;')
 
-    def send_alert(self, repo_patch, repo_commit, subject, alert_msg, offending_line):
+    def send_alert(self, repo_patch, repo_commit, subject, offending_line):
         # parameter setup
         url = repo_commit.url;
         filename = 'NOFILE'
         if repo_patch != None:
             filename = repo_patch.filename
-        subject = "[Providence Email Alert] - " + subject + ' in ' + repo_commit.identifier
+        subject = self.EMAIL_ALERT_SUBJECT + " " + subject + ' in ' + repo_commit.identifier
 
         # skip if the alert is duplicate
         if url + filename + subject + offending_line == ForceDotComBasePlugin.last_alert:

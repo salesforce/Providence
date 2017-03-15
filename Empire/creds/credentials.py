@@ -25,23 +25,16 @@ import requests
 import copy
 import getpass
 import urllib
-
+import logging
 import httplib2
 import csv
 
 from rauth import OAuth2Service
 
-#from apiclient.discovery import build
-#from oauth2client.file import Storage
-#from oauth2client.client import OAuth2WebServerFlow
-#from oauth2client.tools import run
-#from oauth2client.client import OAuth2Credentials
-#from oauth2client.client import FlowExchangeError
-#import argparse
-#from oauth2client import tools
-
 __copyright__ = "2015 Salesforce.com, Inc"
 __status__    = "Prototype"
+
+logger = logging.getLogger(__name__)
 
 class CredentialsInvalidError(Exception):
     pass
