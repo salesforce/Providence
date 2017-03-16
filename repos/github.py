@@ -23,15 +23,11 @@ import pytz
 import sys
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
-
 from Empire.cloudservices.github import GithubOrg, GithubRepo, GithubCommit
 from repos.base import RepoSource, RepoCommit, RepoPatch
 from repos.diffparser import DiffParser
 import logging
 logger = logging.getLogger('repos_github')
-
-owner = 'jacquev6'
-repo = 'PyGithub'
 
 class GithubSource(RepoSource):
     def __init__(self, creds=None, host='api.github.com', owner='Salesforce', repo='providence'):
@@ -105,6 +101,12 @@ class GithubSource(RepoSource):
                     commit_finished_callback(repo_commit)
                     logger.debug("commit sha: %s processing complete", github_commit.sha)
         #logger.debug("done")
+
+    def retrieve_file(self, file_path):
+        file_content = self._github_repo.get_raw_file(file_path)
+        if file_content is None:
+            file_content = ''
+        return file_content
         
 if __name__ == "__main__":
     from Empire.creds import CredentialManager
