@@ -22,7 +22,6 @@ import os
 import pytz
 import sys
 import settings
-
 from repos.base import RepoSource, RepoCommit, RepoPatch
 from repos.diffparser import DiffParser
 import logging
@@ -51,10 +50,10 @@ class PerforceSource(RepoSource):
           perforce_file = ''.join(p4.run("print", "-q", file_path)[1:])
           return perforce_file
         except P4Exception as pre:
-            #logger.error(pre)
+            logger.exception('Exception while retrieving file %s', file_path)
             for e in p4.errors:            # Display errors
-                print e
-        return None
+                logger.exception('Exception : %s', e, exc_info=True)
+        return ''
 
     def processSinceIdentifier(self, identifier, commit_started_callback, patch_callback, commit_finished_callback, path):
         p4 = self.initialize_client()
