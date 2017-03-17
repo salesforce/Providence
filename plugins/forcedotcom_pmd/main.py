@@ -39,42 +39,52 @@ class Plugin(ForceDotComBasePlugin):
 		filename = repo_patch.filename
 		# CLS_SOURCE_FILE_PATTERN = "\.(cls|apex)$"
 		if re.search(ForceDotComBasePlugin.CLS_SOURCE_FILE_PATTERN, filename):
-			logger.debug("filename %s processing...", (filename))
-			file_content = repo_patch.repo_commit.repo_source.retrieve_file(filename)
-			if file_content == '' or file_content is None:
-				logger.error("%s repo probably did not implement retrieve_file()", repository_name)
-				return
-			# pmd-apex throws parsing error on anything other than .cls, so force .cls file extension
-			temp = tempfile.NamedTemporaryFile(mode='w+t', suffix='.cls')
-			pmd_output = None
-			try:
-				temp.write(file_content.encode('utf-8'))
-				temp.seek(0)
-				pmd_output = self.run_pmd(temp.name)
-			except Exception as e: 
-				logger.exception("Error in salesforce_perforce_pmd %s", e)
-			finally:
-				temp.close()
+			file_type = '.cls'
+		# VF page pattern = "\.page$"
+		elif re.search("\.page$", filename):
+			file_type = '.page'
+		else:
+			# Filetype not supported by pmd, do nothing
+			return
+		logger.debug("filename %s processing...", (filename))
+		file_content = repo_patch.repo_commit.repo_source.retrieve_file(filename)
+		if file_content == '' or file_content is None:
+			logger.error("%s repo probably did not implement retrieve_file()", repository_name)
+			return
+		# append the correct file extension
+		temp = tempfile.NamedTemporaryFile(mode='w+t', suffix=file_type)
+		pmd_output = None
+		try:
+			temp.write(file_content.encode('utf-8'))
+			temp.seek(0)
+			pmd_output = self.run_pmd(temp.name, file_type)
+		except Exception as e: 
+			logger.exception("Error in salesforce_perforce_pmd %s", e)
+		finally:
+			temp.close()
 
-			if pmd_output is not None:
-				logger.debug("pmd found violations in %s", filename)
-				lines = file_content.splitlines()
-				pmd_xml = etree.fromstring(pmd_output)
-				for v in pmd_xml.findall(".//violation"):
-					begin_line = int(v.get("beginline")) - 1
-					# only send alert if pmd results match change additions
-					if lines[begin_line] in repo_patch.diff.additions:
-						rule = v.get("rule")
-						link = v.get("externalInfoUrl")
-						info = v.text
-						alert_msg = '<br /><br />LINE NUMBERS<br />' + v.get("beginline") + ' - ' + v.get("endline") +\
-						'<br /><br /><a href="' + link + '">RULE INFO</a><br />' + info
-						super(Plugin, self).send_alert(repo_patch, repo_patch.repo_commit, self.EMAIL_SUBJECT % rule, lines[begin_line], alert_msg)
+		if pmd_output is not None:
+			logger.debug("pmd found violations in %s", filename)
+			lines = file_content.splitlines()
+			pmd_xml = etree.fromstring(pmd_output)
+			for v in pmd_xml.findall(".//violation"):
+				begin_line = int(v.get("beginline")) - 1
+				# only send alert if pmd results match change additions
+				if lines[begin_line] in repo_patch.diff.additions:
+					rule = v.get("rule")
+					link = v.get("externalInfoUrl")
+					info = v.text
+					alert_msg = '<br /><br />LINE NUMBERS<br />' + v.get("beginline") + ' - ' + v.get("endline") +\
+					'<br /><br /><a href="' + link + '">RULE INFO</a><br />' + info
+					super(Plugin, self).send_alert(repo_patch, repo_patch.repo_commit, self.EMAIL_SUBJECT % rule, lines[begin_line], alert_msg)
 
-	def run_pmd(self, file):
+	def run_pmd(self, file, file_type):
 	# returns the raw pmd output as string
 		try:
-			results = subprocess.check_output([self.pmd_path, "pmd", "-R", "apex-security", "-l", "apex", "-f", "xml", "-d", file])
+			if file_type == '.cls':
+				results = subprocess.check_output([self.pmd_path, "pmd", "-R", "apex-security", "-l", "apex", "-f", "xml", "-d", file])
+			elif file_type == '.page':
+				results = subprocess.check_output([self.pmd_path, "pmd", "-R", "vf-security", "-l", "vf", "-f", "xml", "-d", file])
 		except subprocess.CalledProcessError as e:
 			# pmd exits with 4 if violations are found 
 			if e.returncode == 4:
