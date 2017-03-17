@@ -32,8 +32,9 @@ class Plugin(ForceDotComBasePlugin):
 	def __init__(self):
 		super(Plugin, self).__init__("", "", self, logger)
 		self.pmd_path = self.configuration.get("pmd_path")
-		if not self.pmd_path:
+		if not self.pmd_path or self.pmd_path == '':
 			logger.error("pmd_path not defined in config.json")
+			raise Exception('pmd_path not defined!')
 
 	def patch(self, repository_name, repo_patch):
 		filename = repo_patch.filename
