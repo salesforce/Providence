@@ -189,15 +189,16 @@ class PerforceSource(RepoSource):
 
                         self._last_identifier = change_id
                         commit_finished_callback(perforce_commit)
-                    except:
-                        print "Unexpected error:", sys.exc_info()[0]
+                    except Exception as e:
+                        exc_type, exc_value, exc_tb = sys.exc_info()
+                        logger.critical("Perforce Patch process exception type: %s", exc_type, exc_info=True)
                 return patches_processed
             patches_processed = process_patches(identifier)
             p4.disconnect()                # Disconnect from the Server
         except P4Exception as pre:
             logger.error(pre)
             for e in p4.errors:            # Display errors
-                print e
+                logger.error(e)
 
         return None
 
