@@ -92,7 +92,7 @@ class ForceDotComBasePlugin(base.Plugin):
     def simple_html_encode(self, string):
         return string.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;')
 
-    def send_alert(self, repo_patch, repo_commit, subject, offending_line):
+    def send_alert(self, repo_patch, repo_commit, subject ,offending_line, message=''):
         # parameter setup
         url = repo_commit.url;
         filename = 'NOFILE'
@@ -109,7 +109,8 @@ class ForceDotComBasePlugin(base.Plugin):
 
         message = '<a href="' + url + '">' + url + '</a>'+\
         '<br/><br/>OFFENDING LINE<br/>' + self.simple_html_encode(offending_line) +\
-        '<br/><br/>FILE NAME<br/>' + filename
+        '<br/><br/>FILE NAME<br/>' + filename +\
+        message
 
         # email alert
         alert = Alert(message='', message_html=message, subject=subject, level=Alert.HIGH)
