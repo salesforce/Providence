@@ -43,7 +43,9 @@
       "forcedotcom_apex": true,
       "forcedotcom_aura_cmp_ui": true,
       "forcedotcom_aura_js": true,
-      "forcedotcom_vf": true
+      "forcedotcom_vf": true,
+      "forcedotcom_pmd": true
     }]
-  }
+  },
+  "pmd_path": "/path_to_pmd/pmd-dist/target/pmd-bin-5.6.0-SNAPSHOT/bin/run.sh"
 }
