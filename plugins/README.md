@@ -60,7 +60,7 @@ run_seven_minutes()
 
 
 ## Sample Plugins
-### basic_plugin
+### basic_plugin_register
 Registers the Perforce and Github repos
 
 ### basic_plugin_watcher
@@ -75,7 +75,7 @@ Parent class of other forcedotcom watcher plugins. Contains the hooks (`register
 This and the child forcedotcom plugins are a great way to monitor issues that we check for during the AppExchange security review.
 
 ### forcedotcom_apex
-Looks for common security issues in apex classes
+Looks for common security issues in Apex classes
 
 ### forcedotcom_aura_cmp_ui
 Looks for common security issues on the UI side of Aura components
@@ -85,6 +85,10 @@ Looks for common security issues on the controller/helper sides of Aura componen
 
 ### forcedotcom_vf
 Looks for issues on VisualForce pages
+
+### forcedotcom_pmd
+Looks for common security issues in Apex classes and Visualforce pages, using a source code analyzer [PMD](https://pmd.github.io/). PMD is run against each commit, and the resulting findings are sent out as Providence alerts. 
+This plugin requires additional [setup](forcedotcom_pmd/README.md)
 
 
 
