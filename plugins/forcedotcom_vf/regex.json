@@ -8,6 +8,11 @@
                 {"alert":[{"alert config":"alert group","subject":"Unescaped Output"}]}
                 ]
         },
+        {"if":["unescapeHTML\\("],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Unescaped Output"}]}
+                ]
+        },
         {"if":["['\"]http(s)?://.*\\.js['\"]"],
          "then":[
                 {"alert":[{"alert config":"alert group","subject":"External Included Script"}]}
@@ -36,11 +41,6 @@
         {"if":["GETSESSIONID\\(\\)"],
          "then":[
                 {"alert":[{"alert config":"alert group","subject":"Session ID being retrieved"}]}
-                ]
-        },
-        {"if":["escapeHTML\\("],
-         "then":[
-                {"alert":[{"alert config":"alert group","subject":"Incorrect HTML escaping routine called"}]}
                 ]
         }
     ],
