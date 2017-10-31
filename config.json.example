@@ -38,8 +38,8 @@
   },
   "plugins": {
     "enabled": [{
+      "basic_plugin_register":true,
       "basic_plugin_watcher":true,
-      "basic_plugin":true,
       "forcedotcom_apex": true,
       "forcedotcom_aura_cmp_ui": true,
       "forcedotcom_aura_js": true,
