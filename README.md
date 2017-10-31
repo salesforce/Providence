@@ -38,14 +38,18 @@ Create a database named 'providence'
     brew install swig postgresql wget 
 
 #### Configuration On All Systems
-You may need to follow the instructions here for the cryptography module in the next steps: https://cryptography.io/en/latest/installation/
-On OSX the install will fail without the proper environmental variables being set.
+For OSX users, make sure your pip version is 8 or above, otherwise you might have problems installing the cryptography module. 
+    pip -V
+    pip 7.1.2 from /Users/joe_smith/Desktop/Providence/venv/lib/python2.7/site-packages (python 2.7)
+    (upgrade pip to latest)
+    pip install --upgrade pip
+
+See https://cryptography.io/en/latest/installation/ if upgrading pip does not solve the problem
 
 #### All Systems
     virtualenv venv
     source venv/bin/activate
     pip install -r requirements.txt
-    pip install -r Empire/requirements.txt
 
 If you need to deactivate the virtualenv just type `deactivate`
 
