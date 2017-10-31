@@ -39,6 +39,7 @@ Create a database named 'providence'
 
 #### Configuration On All Systems
 For OSX users, make sure your pip version is 8 or above, otherwise you might have problems installing the cryptography module. 
+
     pip -V
     pip 7.1.2 from /Users/joe_smith/Desktop/Providence/venv/lib/python2.7/site-packages (python 2.7)
     (upgrade pip to latest)
