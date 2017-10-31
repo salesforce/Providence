@@ -23,9 +23,14 @@
                 {"alert":[{"alert config":"alert group","subject":"Eval used"}]}
                 ]
         },
-        {"if":["\\.postMessage\\("],
+        {"if":["\\.postMessage\\(.*?,"],
          "then":[
-                {"alert":[{"alert config":"alert group","subject":"Cross-domain communication"}]}
+                {"alert":[{"alert config":"alert group","subject":"Cross-domain communication - sender"}]}
+                ]
+        },
+        {"if":["\\.addEventListener\\(\"message\""],
+         "then":[
+                {"alert":[{"alert config":"alert group","subject":"Cross-domain communication - listener"}]}
                 ]
         },
         {"if":["localStorage\\.setItem\\(['\"](password|token|key|secret)"],
