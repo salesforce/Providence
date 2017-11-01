@@ -18,7 +18,7 @@
                 {"alert":[{"alert config":"alert group","subject":"External Included Script"}]}
                 ]
         },
-        {"if":["window\\.eval\\(.*\\)"],
+        {"if":["\\.eval\\(.*\\)"],
          "then":[
                 {"alert":[{"alert config":"alert group","subject":"Eval used"}]}
                 ]
