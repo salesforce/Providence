@@ -38,10 +38,10 @@ class ForceDotComBasePlugin(base.Plugin):
         EMAIL_ALERT_SUBJECT = '[Providence Email Alert]'
 
     # some regex filename constants
-    AURA_CMP_UI_SOURCE_FILE_PATTERN = "^((?<!auradocs)(?<!outputRichText).)*\.cmp$"
-    APEXP_OR_JS_SOURCE_FILE_PATTERN = "^((?<!aura-devtools).)*\.(apexp|js)$"
+    AURA_CMP_UI_SOURCE_FILE_PATTERN = "\.cmp$"
+    APEXP_OR_JS_SOURCE_FILE_PATTERN = "\.(apexp|js)$"
     CLS_SOURCE_FILE_PATTERN = "\.(cls|apex)$"
-    AURA_JS_SOURCE_FILE_PATTERN = "^((?<!aura-devtools).)*/components/.*\.js$"
+    AURA_JS_SOURCE_FILE_PATTERN = "aura/.*\.js$"
 
     # anchor for last repo commit
     last_alert = None
