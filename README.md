@@ -43,7 +43,7 @@ Create a database named 'providence'
     source venv/bin/activate
     pip install -r requirements.txt
 
-For OSX users, you may have issues installing the cryptography dependency. If the above steps fail due to cryptography module, update your pip to the latest version in virtualenv
+For OSX users, you may have issues installing the cryptography dependency. If the above steps fail due to the cryptography module, update your pip to the latest version in virtualenv
 
     pip -V
     pip 7.1.2 from /Users/joe_smith/Desktop/Providence/venv/lib/python2.7/site-packages (python 2.7)
@@ -59,18 +59,36 @@ If you need to deactivate the virtualenv just type `deactivate`
     pip install p4python
 
 ### 6. Configuration
-The config.json file contains the settings for which to run Providence with. 
+The config.json.example file contains the settings for which to run Providence with. 
 
-Modify the postgresql server address and port if necessary, and set up the email and repos section with your information. 
+#### credentials_file
+Name of the credential storage file. There should be no need to modify this.
 
-`watcher_interval` sets the time in minutes between each scheduled processing.
+#### logging
+Format of the Providence.log logging file. Change the `loglevel` if the log file is too large
+
+#### postgresql
+Edit this section to point to your Postgres server. `credential-identifier` is the name used in credentials.json for the Postgres username and password.
+
+#### repos
+Edit this section to point to the repositories you want to monitor with Providence. Github (including Enterprise) and Perforce are currently supported.
+
+    {
+        "type": "(github or perforce)",
+        "name": "(name used by Providence, not the actual repo name)",
+        "server": "(server URL)",
+        "owner": "(github only - owner)",
+        "directory": "(directory of the repo)"
+      }
+
+#### cron
+`watcher_interval` sets the time in minutes between each scheduled processing, for watcher plugins.
 
 ### 7. Adjust which plugins you want to run
-Enable plugins in your new config.json file, several examples will be there.
-Currently the 'plugins' directory contains a base plugin which has two example regex files:
+Enable plugins in your new config.json file, several examples are listed in the example file.
 
-1. `java.json`  will alert for possible instances of XXE in java
-2. `js.json` contains warnings for risky JS coding
+#### pmd_path
+If using the PMD plugin, fill out the full directory to `run.sh` file for your PMD installation.
 
 ### 8. Generate a Credentials Key
 ```
