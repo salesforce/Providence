@@ -36,6 +36,7 @@ import datetime
 import pytz
 import json
 import logging
+logger = logging.getLogger('GithubAPI')
 
 __copyright__ = "2015 Salesforce.com, Inc"
 __status__    = "Prototype"
