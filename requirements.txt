@@ -2,7 +2,7 @@ APScheduler==2.1.2
 SQLAlchemy==0.9.8
 argparse==1.2.1
 distribute==0.6.24
-httplib2==0.9
+httplib2==0.18.0
 py==1.4.20
 pycrypto==2.6.1
 cryptography
