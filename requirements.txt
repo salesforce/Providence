@@ -10,7 +10,7 @@ python-dateutil==2.2
 python-simple-hipchat==0.3.3
 pytz==2014.4
 rauth==0.7.0
-requests==2.3.0
+requests==2.20.0
 should-dsl==2.1.2
 six==1.7.3
 urllib3
